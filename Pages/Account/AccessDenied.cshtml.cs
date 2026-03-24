@@ -1,15 +1,12 @@
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace DotNetIdentityDeepDive.Pages
+namespace DotNetIdentityDeepDive.Pages.Account
 {
-    [Authorize]
-    public class IndexModel : PageModel
+    public class AccessDeniedModel : PageModel
     {
         public void OnGet()
         {
-
         }
     }
 }

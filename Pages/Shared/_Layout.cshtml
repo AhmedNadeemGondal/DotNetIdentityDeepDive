@@ -26,8 +26,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-page="/HRManager">HR Manager</a>
+                        </li>
                     </ul>
                 </div>
+                @* A partial view for the logout button *@
+               <div class="mr-2 "> 
+                   <partial name="_LoginStatusPartial"/>
+               </div>
             </div>
         </nav>
     </header>

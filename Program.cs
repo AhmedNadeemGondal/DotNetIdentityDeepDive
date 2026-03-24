@@ -1,3 +1,6 @@
+using DotNetIdentityDeepDive.Authorization;
+using Microsoft.AspNetCore.Authorization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -8,8 +11,22 @@ builder.Services.AddAuthentication("MyCookieAuth") // Sets "MyCookieAuth" as the
     .AddCookie("MyCookieAuth", options =>
     {
         options.Cookie.Name = "MyAuthCookie"; // The name of the cookie stored in the user's browser
-        //options.LoginPath = "/Account/Login";
+        options.LoginPath = "/Account/Login"; // Explicitly assigning this path as the login page
+        options.AccessDeniedPath = "/Account/AccessDenied"; // Explicitly assigning access denied page
     });
+builder.Services.AddAuthorization(options => // Configuring authorization policies
+{
+    options.AddPolicy("AdminOnly", policy => policy.RequireClaim("Admin")); // added admin policy
+
+    options.AddPolicy("MustBelongToHR", policy => policy.RequireClaim("Department", "HR")); // added HR policy
+
+    options.AddPolicy("HRManagerOnly", policy => policy.RequireClaim("Department", "HR")
+                                                       .RequireClaim("Manager")
+                                                       .Requirements.Add(new HRManagerProbationRequirement(3))
+                     );
+});
+
+builder.Services.AddSingleton<IAuthorizationHandler, HRManagerProbabtionRequirementHandler>();
 builder.Services.AddRazorPages();
 
 var app = builder.Build();

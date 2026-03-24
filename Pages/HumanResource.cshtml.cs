@@ -4,12 +4,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DotNetIdentityDeepDive.Pages
 {
-    [Authorize]
-    public class IndexModel : PageModel
+    [Authorize(Policy = "MustBelongToHR")]
+    public class HumanResourceModel : PageModel
     {
         public void OnGet()
         {
-
         }
     }
 }

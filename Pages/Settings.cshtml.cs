@@ -4,12 +4,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace DotNetIdentityDeepDive.Pages
 {
-    [Authorize]
-    public class IndexModel : PageModel
+    [Authorize(Policy = "AdminOnly")] // This requies the AdminOnly claim to be present in the identity
+    public class SettingsModel : PageModel
     {
         public void OnGet()
         {
-
         }
     }
 }

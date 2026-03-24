@@ -22,9 +22,16 @@ namespace DotNetIdentityDeepDive.Pages.Account
                 && Credential.Password == "password")
             {
                 // Creating security context as the credentials above are verified
+
+                // manually adding the following claims for demo purpose
+                // this is usually handled more gracefully
                 List<Claim> claims = [
                 new(ClaimTypes.Name, "admin"),
-                new(ClaimTypes.Email, "admin@mywebsite.com")
+                new(ClaimTypes.Email, "admin@mywebsite.com"),
+                new("Department", "HR"),
+                new("Admin", "true"),
+                new("Manager", "true"),
+                new("EmploymentDate", "2025-12-22")
                 ];
                 // Creating an identity in light of the claims
                 ClaimsIdentity identity = new(claims, "MyCookieAuth"); // Note that passing "MyCookieAuth" (the authentication type)
