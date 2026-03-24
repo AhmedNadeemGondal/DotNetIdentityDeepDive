@@ -38,9 +38,15 @@ namespace DotNetIdentityDeepDive.Pages.Account
                                                                        // into the ClaimsIdentity constructor is vital
                 ClaimsPrincipal claimsPrincipal = new(identity); // This contains the security context
 
+                var authProperties = new AuthenticationProperties
+                {
+                    IsPersistent = Credential.RememberMe, // this will the set cookie to be persistant
+                                                          // if the RememberMe was checked before submitting in the UI.
+                };
+
                 // SignInAsync wraps Principal in an 'AuthenticationTicket' containing your claims and 
                 // metadata, then protects (encrypts) that ticket via the Data Protection API.
-                await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal); // 1. This will wrap and serialize the claims principal
+                await HttpContext.SignInAsync("MyCookieAuth", claimsPrincipal, authProperties); // 1. This will wrap and serialize the claims principal  --- authroperties for persistance
                                                                                 //    and any AuthenticationProperties/metadata into a string
                                                                                 // 2. Encrypt that string
                                                                                 // 3. Save it as a cookie in the HttpContext object
@@ -65,5 +71,9 @@ namespace DotNetIdentityDeepDive.Pages.Account
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+        // Impelemting persistent cookie
+        [Display(Name ="Remember me")]
+        public bool RememberMe { get; set; }
     }
 }
